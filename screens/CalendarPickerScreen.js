@@ -13,7 +13,6 @@ export default class CalendarPickerScreen extends React.Component {
         // TO DO : Pass date from outside
         super(props);
         this.state = { chosenDate: new Date() };
-
     }
 
     static navigationOptions = {
@@ -26,20 +25,24 @@ export default class CalendarPickerScreen extends React.Component {
     }
 
     debugView = () =>  {
+        const { navigation } = this.props;
+        const alarm  = navigation.getParam('alarm', new Date())
+        const date = alarm.date || new Date();
         return (
-            <Text>set Date: {this.state.chosenDate.toString()}</Text>
+            <Text>set Date: {date.toString()}</Text>
         );
     }
 
     render() {
         const { navigation } = this.props;
         const chosenDate = navigation.getParam('date', new Date());
+
         return Platform.OS === 'ios' ?
         <View style={styles.container}>
-            <DatePickerIOS
+            {/* <DatePickerIOS
                 date={chosenDate}
                 onDateChange={this.setDate}
-            />
+            /> */}
         {this.debugView()}
         </View>
         :

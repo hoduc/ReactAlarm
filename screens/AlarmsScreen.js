@@ -1,6 +1,6 @@
 import React from 'react';
-import { Platform } from 'react-native';
 import {
+    Button,
     View,
     Text,
     FlatList,
@@ -26,9 +26,17 @@ export default class AlarmsScreen extends React.Component {
 
     }
 
-    static navigationOptions = {
-        title: 'Available Alarms'
-    }
+    static navigationOptions = ({ navigation }) => {
+        return {
+            headerTitle: 'Available Alarms',
+            headerRight: (
+                <Button 
+                    title="+"
+                    onPress = {() => navigation.navigate('Alarm', {alarm : {}})}
+                />
+            ),
+        };
+    };
 
     render() {
         return (
@@ -37,7 +45,7 @@ export default class AlarmsScreen extends React.Component {
                     data={this.alarms}
                     renderItem={
                         ({item}) => 
-                        <Text onPress = {() => this.props.navigation.navigate('Alarm', {date: item.date})}>
+                        <Text onPress = {() => this.props.navigation.navigate('Alarm', {alarm :item})}>
                         {item.name} - {item.date.toString()}
                         </Text>
                     }
