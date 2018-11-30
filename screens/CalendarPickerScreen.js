@@ -4,15 +4,19 @@ import {
     View,
     Text,
     DatePickerIOS,
-    StyleSheet,
+    StyleSheet
 } from 'react-native';
 
 export default class CalendarPickerScreen extends React.Component {
 
-    constructor(props) { 
-        // TO DO : Pass date from outside
+    constructor(props) {
         super(props);
-        this.state = { chosenDate: new Date() };
+        const { navigation } = this.props;
+        const alarm = navigation.getParam('alarm', {});
+        if (!alarm.hasOwnProperty('date')) {
+            alarm.date = new Date();
+        }
+        this.state = {clock : alarm};
     }
 
     static navigationOptions = {
@@ -21,28 +25,26 @@ export default class CalendarPickerScreen extends React.Component {
 
 
     setDate = (newDate) => {
-        this.setState({chosenDate: newDate});
+        this.state.clock.date = newDate;
+        this.setState({clock: this.state.clock});
     }
 
     debugView = () =>  {
-        const { navigation } = this.props;
-        const alarm  = navigation.getParam('alarm', new Date())
-        const date = alarm.date || new Date();
         return (
-            <Text>set Date: {date.toString()}</Text>
+            <View>
+                <Text>set Date: {JSON.stringify(this.state.clock.date.toLocaleString())}</Text>
+                <Text>{JSON.stringify(this.props)}</Text>
+            </View>
         );
     }
 
     render() {
-        const { navigation } = this.props;
-        const chosenDate = navigation.getParam('date', new Date());
-
         return Platform.OS === 'ios' ?
         <View style={styles.container}>
-            {/* <DatePickerIOS
-                date={chosenDate}
+            <DatePickerIOS
+                date={this.state.clock.date}
                 onDateChange={this.setDate}
-            /> */}
+            />
         {this.debugView()}
         </View>
         :

@@ -49,6 +49,7 @@ export default class AlarmsScreen extends React.Component {
                         {item.name} - {item.date.toString()}
                         </Text>
                     }
+                    keyExtractor={(item, index) => index.toString()}
                 />
             </View>
         );
